@@ -8,12 +8,20 @@
     "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
   },
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "type": "module",
+  "files": [
+    "dist",
+    "src/components"
+  ],
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "vite build",
     "prepare": "npm run build"
   },
   "devDependencies": {
-    "typescript": "^4.0"
+    "typescript": "^5.3",
+    "vite": "^5.0.5",
+    "vite-plugin-dts": "^3.6.4"
   }
 }
