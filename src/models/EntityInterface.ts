@@ -31,79 +31,79 @@ export interface EntityInterface {
      * @type {number}
      * @memberof EntityInterface
      */
-    version?: number;
+    _version?: number;
     /**
      * 
      * @type {EntityMetric}
      * @memberof EntityInterface
      */
-    entityMetric?: EntityMetric;
+    entity_metric?: EntityMetric;
     /**
      * Unique ID
      * @type {string}
      * @memberof EntityInterface
      */
-    entityUniqueId?: string;
+    entity_unique_id?: string;
     /**
      * An unique ID across the flyo sytem
      * @type {string}
      * @memberof EntityInterface
      */
-    entityId?: string;
+    entity_id?: string;
     /**
      * For image manipulation please see https://dev.flyo.cloud/dev/infos/images.html
      * @type {string}
      * @memberof EntityInterface
      */
-    entityImage?: string;
+    entity_image?: string;
     /**
      * The slug for the given item, this can be either unique or not, depending on the configuration of the entity definition schema.
      * @type {string}
      * @memberof EntityInterface
      */
-    entitySlug?: string;
+    entity_slug?: string;
     /**
      * The standard interface teaser resolved for the current entity
      * @type {string}
      * @memberof EntityInterface
      */
-    entityTeaser?: string;
+    entity_teaser?: string;
     /**
      * Unique ID
      * @type {string}
      * @memberof EntityInterface
      */
-    entityTimeEnd?: string;
+    entity_time_end?: string;
     /**
      * If not defined, null is returned
      * @type {string}
      * @memberof EntityInterface
      */
-    entityTimeStart?: string;
+    entity_time_start?: string;
     /**
      * The standard interface title resolved for the current entity
      * @type {string}
      * @memberof EntityInterface
      */
-    entityTitle?: string;
+    entity_title?: string;
     /**
      * 
      * @type {string}
      * @memberof EntityInterface
      */
-    entityType?: string;
+    entity_type?: string;
     /**
      * The Type-ID, alternatively referred to as the Entity-Definition-Schema ID, serves as a crucial identifier within the system. It uniquely distinguishes and categorizes the Entity-Definition-Schema.
      * @type {number}
      * @memberof EntityInterface
      */
-    entityTypeId?: number;
+    entity_type_id?: number;
     /**
      * 
      * @type {string}
      * @memberof EntityInterface
      */
-    updatedAt?: string;
+    updated_at?: string;
     /**
      * 
      * @type {{ [key: string]: string; }}
@@ -131,19 +131,19 @@ export function EntityInterfaceFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'version': !exists(json, '_version') ? undefined : json['_version'],
-        'entityMetric': !exists(json, 'entity_metric') ? undefined : EntityMetricFromJSON(json['entity_metric']),
-        'entityUniqueId': !exists(json, 'entity_unique_id') ? undefined : json['entity_unique_id'],
-        'entityId': !exists(json, 'entity_id') ? undefined : json['entity_id'],
-        'entityImage': !exists(json, 'entity_image') ? undefined : json['entity_image'],
-        'entitySlug': !exists(json, 'entity_slug') ? undefined : json['entity_slug'],
-        'entityTeaser': !exists(json, 'entity_teaser') ? undefined : json['entity_teaser'],
-        'entityTimeEnd': !exists(json, 'entity_time_end') ? undefined : json['entity_time_end'],
-        'entityTimeStart': !exists(json, 'entity_time_start') ? undefined : json['entity_time_start'],
-        'entityTitle': !exists(json, 'entity_title') ? undefined : json['entity_title'],
-        'entityType': !exists(json, 'entity_type') ? undefined : json['entity_type'],
-        'entityTypeId': !exists(json, 'entity_type_id') ? undefined : json['entity_type_id'],
-        'updatedAt': !exists(json, 'updated_at') ? undefined : json['updated_at'],
+        '_version': !exists(json, '_version') ? undefined : json['_version'],
+        'entity_metric': !exists(json, 'entity_metric') ? undefined : EntityMetricFromJSON(json['entity_metric']),
+        'entity_unique_id': !exists(json, 'entity_unique_id') ? undefined : json['entity_unique_id'],
+        'entity_id': !exists(json, 'entity_id') ? undefined : json['entity_id'],
+        'entity_image': !exists(json, 'entity_image') ? undefined : json['entity_image'],
+        'entity_slug': !exists(json, 'entity_slug') ? undefined : json['entity_slug'],
+        'entity_teaser': !exists(json, 'entity_teaser') ? undefined : json['entity_teaser'],
+        'entity_time_end': !exists(json, 'entity_time_end') ? undefined : json['entity_time_end'],
+        'entity_time_start': !exists(json, 'entity_time_start') ? undefined : json['entity_time_start'],
+        'entity_title': !exists(json, 'entity_title') ? undefined : json['entity_title'],
+        'entity_type': !exists(json, 'entity_type') ? undefined : json['entity_type'],
+        'entity_type_id': !exists(json, 'entity_type_id') ? undefined : json['entity_type_id'],
+        'updated_at': !exists(json, 'updated_at') ? undefined : json['updated_at'],
         'routes': !exists(json, 'routes') ? undefined : json['routes'],
     };
 }
@@ -157,19 +157,19 @@ export function EntityInterfaceToJSON(value?: EntityInterface | null): any {
     }
     return {
         
-        '_version': value.version,
-        'entity_metric': EntityMetricToJSON(value.entityMetric),
-        'entity_unique_id': value.entityUniqueId,
-        'entity_id': value.entityId,
-        'entity_image': value.entityImage,
-        'entity_slug': value.entitySlug,
-        'entity_teaser': value.entityTeaser,
-        'entity_time_end': value.entityTimeEnd,
-        'entity_time_start': value.entityTimeStart,
-        'entity_title': value.entityTitle,
-        'entity_type': value.entityType,
-        'entity_type_id': value.entityTypeId,
-        'updated_at': value.updatedAt,
+        '_version': value._version,
+        'entity_metric': EntityMetricToJSON(value.entity_metric),
+        'entity_unique_id': value.entity_unique_id,
+        'entity_id': value.entity_id,
+        'entity_image': value.entity_image,
+        'entity_slug': value.entity_slug,
+        'entity_teaser': value.entity_teaser,
+        'entity_time_end': value.entity_time_end,
+        'entity_time_start': value.entity_time_start,
+        'entity_title': value.entity_title,
+        'entity_type': value.entity_type,
+        'entity_type_id': value.entity_type_id,
+        'updated_at': value.updated_at,
         'routes': value.routes,
     };
 }

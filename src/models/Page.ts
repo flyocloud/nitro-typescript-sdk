@@ -85,31 +85,31 @@ export interface Page {
      * @type {number}
      * @memberof Page
      */
-    isHome?: number;
+    is_home?: number;
     /**
      * 
      * @type {number}
      * @memberof Page
      */
-    createdAt?: number;
+    created_at?: number;
     /**
      * 
      * @type {number}
      * @memberof Page
      */
-    updatedAt?: number;
+    updated_at?: number;
     /**
      * 
      * @type {number}
      * @memberof Page
      */
-    isVisible?: number;
+    is_visible?: number;
     /**
      * 
      * @type {Meta}
      * @memberof Page
      */
-    metaJson?: Meta;
+    meta_json?: Meta;
     /**
      * 
      * @type {{ [key: string]: PageProperty; }}
@@ -173,11 +173,11 @@ export function PageFromJSONTyped(json: any, ignoreDiscriminator: boolean): Page
         'slug': !exists(json, 'slug') ? undefined : json['slug'],
         'json': !exists(json, 'json') ? undefined : ((json['json'] as Array<any>).map(BlockFromJSON)),
         'depth': !exists(json, 'depth') ? undefined : json['depth'],
-        'isHome': !exists(json, 'is_home') ? undefined : json['is_home'],
-        'createdAt': !exists(json, 'created_at') ? undefined : json['created_at'],
-        'updatedAt': !exists(json, 'updated_at') ? undefined : json['updated_at'],
-        'isVisible': !exists(json, 'is_visible') ? undefined : json['is_visible'],
-        'metaJson': !exists(json, 'meta_json') ? undefined : MetaFromJSON(json['meta_json']),
+        'is_home': !exists(json, 'is_home') ? undefined : json['is_home'],
+        'created_at': !exists(json, 'created_at') ? undefined : json['created_at'],
+        'updated_at': !exists(json, 'updated_at') ? undefined : json['updated_at'],
+        'is_visible': !exists(json, 'is_visible') ? undefined : json['is_visible'],
+        'meta_json': !exists(json, 'meta_json') ? undefined : MetaFromJSON(json['meta_json']),
         'properties': !exists(json, 'properties') ? undefined : (mapValues(json['properties'], PagePropertyFromJSON)),
         'uid': !exists(json, 'uid') ? undefined : json['uid'],
         'type': !exists(json, 'type') ? undefined : json['type'],
@@ -202,11 +202,11 @@ export function PageToJSON(value?: Page | null): any {
         'slug': value.slug,
         'json': value.json === undefined ? undefined : ((value.json as Array<any>).map(BlockToJSON)),
         'depth': value.depth,
-        'is_home': value.isHome,
-        'created_at': value.createdAt,
-        'updated_at': value.updatedAt,
-        'is_visible': value.isVisible,
-        'meta_json': MetaToJSON(value.metaJson),
+        'is_home': value.is_home,
+        'created_at': value.created_at,
+        'updated_at': value.updated_at,
+        'is_visible': value.is_visible,
+        'meta_json': MetaToJSON(value.meta_json),
         'properties': value.properties === undefined ? undefined : (mapValues(value.properties, PagePropertyToJSON)),
         'uid': value.uid,
         'type': value.type,

@@ -24,49 +24,49 @@ export interface EntityinterfaceInner {
      * @type {string}
      * @memberof EntityinterfaceInner
      */
-    entityUniqueId?: string;
+    entity_unique_id?: string;
     /**
      * The standard interface title resolved for the current entity
      * @type {string}
      * @memberof EntityinterfaceInner
      */
-    entityTitle?: string;
+    entity_title?: string;
     /**
      * The standard interface teaser resolved for the current entity
      * @type {string}
      * @memberof EntityinterfaceInner
      */
-    entityTeaser?: string;
+    entity_teaser?: string;
     /**
      * The slug for the given item, this can be either unique or not, depending on the configuration of the entity definition schema.
      * @type {string}
      * @memberof EntityinterfaceInner
      */
-    entitySlug?: string;
+    entity_slug?: string;
     /**
      * If not defined, null is returned
      * @type {string}
      * @memberof EntityinterfaceInner
      */
-    entityTimeStart?: string;
+    entity_time_start?: string;
     /**
      * 
      * @type {string}
      * @memberof EntityinterfaceInner
      */
-    entityType?: string;
+    entity_type?: string;
     /**
      * The Type-ID, alternatively referred to as the Entity-Definition-Schema ID, serves as a crucial identifier within the system. It uniquely distinguishes and categorizes the Entity-Definition-Schema.
      * @type {number}
      * @memberof EntityinterfaceInner
      */
-    entityTypeId?: number;
+    entity_type_id?: number;
     /**
      * For image manipulation please see https://dev.flyo.cloud/dev/infos/images.html
      * @type {string}
      * @memberof EntityinterfaceInner
      */
-    entityImage?: string;
+    entity_image?: string;
     /**
      * 
      * @type {{ [key: string]: string; }}
@@ -94,14 +94,14 @@ export function EntityinterfaceInnerFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'entityUniqueId': !exists(json, 'entity_unique_id') ? undefined : json['entity_unique_id'],
-        'entityTitle': !exists(json, 'entity_title') ? undefined : json['entity_title'],
-        'entityTeaser': !exists(json, 'entity_teaser') ? undefined : json['entity_teaser'],
-        'entitySlug': !exists(json, 'entity_slug') ? undefined : json['entity_slug'],
-        'entityTimeStart': !exists(json, 'entity_time_start') ? undefined : json['entity_time_start'],
-        'entityType': !exists(json, 'entity_type') ? undefined : json['entity_type'],
-        'entityTypeId': !exists(json, 'entity_type_id') ? undefined : json['entity_type_id'],
-        'entityImage': !exists(json, 'entity_image') ? undefined : json['entity_image'],
+        'entity_unique_id': !exists(json, 'entity_unique_id') ? undefined : json['entity_unique_id'],
+        'entity_title': !exists(json, 'entity_title') ? undefined : json['entity_title'],
+        'entity_teaser': !exists(json, 'entity_teaser') ? undefined : json['entity_teaser'],
+        'entity_slug': !exists(json, 'entity_slug') ? undefined : json['entity_slug'],
+        'entity_time_start': !exists(json, 'entity_time_start') ? undefined : json['entity_time_start'],
+        'entity_type': !exists(json, 'entity_type') ? undefined : json['entity_type'],
+        'entity_type_id': !exists(json, 'entity_type_id') ? undefined : json['entity_type_id'],
+        'entity_image': !exists(json, 'entity_image') ? undefined : json['entity_image'],
         'routes': !exists(json, 'routes') ? undefined : json['routes'],
     };
 }
@@ -115,14 +115,14 @@ export function EntityinterfaceInnerToJSON(value?: EntityinterfaceInner | null):
     }
     return {
         
-        'entity_unique_id': value.entityUniqueId,
-        'entity_title': value.entityTitle,
-        'entity_teaser': value.entityTeaser,
-        'entity_slug': value.entitySlug,
-        'entity_time_start': value.entityTimeStart,
-        'entity_type': value.entityType,
-        'entity_type_id': value.entityTypeId,
-        'entity_image': value.entityImage,
+        'entity_unique_id': value.entity_unique_id,
+        'entity_title': value.entity_title,
+        'entity_teaser': value.entity_teaser,
+        'entity_slug': value.entity_slug,
+        'entity_time_start': value.entity_time_start,
+        'entity_type': value.entity_type,
+        'entity_type_id': value.entity_type_id,
+        'entity_image': value.entity_image,
         'routes': value.routes,
     };
 }

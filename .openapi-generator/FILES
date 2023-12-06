@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-README.md
 src/apis/ConfigApi.ts
 src/apis/EntitiesApi.ts
 src/apis/PagesApi.ts
@@ -26,4 +25,3 @@ src/models/PagesInner.ts
 src/models/VersionResponse.ts
 src/models/index.ts
 src/runtime.ts
-tsconfig.json

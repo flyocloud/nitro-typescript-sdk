@@ -42,7 +42,7 @@ export interface ConfigResponseNitro {
      * @type {number}
      * @memberof ConfigResponseNitro
      */
-    updatedAt?: number;
+    updated_at?: number;
     /**
      * 
      * @type {string}
@@ -73,7 +73,7 @@ export function ConfigResponseNitroFromJSONTyped(json: any, ignoreDiscriminator:
         'domain': !exists(json, 'domain') ? undefined : json['domain'],
         'slug': !exists(json, 'slug') ? undefined : json['slug'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'updatedAt': !exists(json, 'updated_at') ? undefined : json['updated_at'],
+        'updated_at': !exists(json, 'updated_at') ? undefined : json['updated_at'],
         'language': !exists(json, 'language') ? undefined : json['language'],
     };
 }
@@ -90,7 +90,7 @@ export function ConfigResponseNitroToJSON(value?: ConfigResponseNitro | null): a
         'domain': value.domain,
         'slug': value.slug,
         'version': value.version,
-        'updated_at': value.updatedAt,
+        'updated_at': value.updated_at,
         'language': value.language,
     };
 }

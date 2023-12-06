@@ -30,7 +30,7 @@ export interface VersionResponse {
      * @type {number}
      * @memberof VersionResponse
      */
-    updatedAt?: number;
+    updated_at?: number;
 }
 
 /**
@@ -53,7 +53,7 @@ export function VersionResponseFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'updatedAt': !exists(json, 'updated_at') ? undefined : json['updated_at'],
+        'updated_at': !exists(json, 'updated_at') ? undefined : json['updated_at'],
     };
 }
 
@@ -67,7 +67,7 @@ export function VersionResponseToJSON(value?: VersionResponse | null): any {
     return {
         
         'version': value.version,
-        'updated_at': value.updatedAt,
+        'updated_at': value.updated_at,
     };
 }
 
