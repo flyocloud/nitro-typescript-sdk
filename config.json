@@ -3,5 +3,7 @@
     "projectName": "@flyo/nitro-typescript",
     "npmName": "@flyo/nitro-typescript",
     "npmVersion": "1.0.0",
-    "modelPropertyNaming": "snake_case"
+    "modelPropertyNaming": "original",
+    "paramNaming": "original",
+    "enumPropertyNaming": "original"
   }
