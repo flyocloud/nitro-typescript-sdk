@@ -1,6 +1,6 @@
 {
   "name": "@flyo/nitro-typescript",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "OpenAPI client for @flyo/nitro-typescript",
   "author": "OpenAPI-Generator",
   "repository": {
