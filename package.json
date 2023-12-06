@@ -1,13 +1,21 @@
 {
   "name": "@flyo/nitro-typescript",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "description": "OpenAPI client for @flyo/nitro-typescript",
   "author": "OpenAPI-Generator",
   "repository": {
     "type": "git",
     "url": "https://github.com/flyocloud/nitro-typescript-sdk"
   },
-  "exports": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "type": "module",
   "files": [
     "dist"
