@@ -12,7 +12,6 @@ Language level
 * ES6
 
 Module system
-* CommonJS
 * ES6 module system
 
 It can be used in both TypeScript and JavaScript. In TypeScript, the definition should be automatically resolved via `package.json`. ([Reference](http://www.typescriptlang.org/docs/handbook/typings-for-npm-packages.html))

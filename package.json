@@ -14,7 +14,7 @@
     "dist",
     "src/components"
   ],
-  "typings": "./dist/index.d.ts",
+  "typings": "./dist/runtime.d.ts",
   "scripts": {
     "build": "vite build",
     "prepare": "npm run build"
