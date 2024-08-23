@@ -16,61 +16,77 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Meta
+ * @interface FieldLink
  */
-export interface Meta {
+export interface FieldLink {
     /**
-     * Meta Description
+     * The type of the link. Possible values are: nitropagelink, url, email, tel, file
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldLink
      */
-    description?: string;
+    type?: string;
     /**
-     * Path to meta image
+     * The target attribute of the link. Possible values are: _blank, _self
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldLink
      */
-    image?: string;
+    target?: string;
     /**
-     * Meta page title
+     * The not modified raw input value of flyo.
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldLink
      */
-    title?: string;
+    raw?: string;
+    /**
+     * The link in a href format. Which means links have a trailing slash. E-Mail links start with mailto: and phone links start with tel:
+     * @type {string}
+     * @memberof FieldLink
+     */
+    href?: string;
+    /**
+     * Additional information about the link. This information can vary depending on the type of link.
+     * @type {object}
+     * @memberof FieldLink
+     */
+    extras?: object;
 }
 
 /**
- * Check if a given object implements the Meta interface.
+ * Check if a given object implements the FieldLink interface.
  */
-export function instanceOfMeta(value: object): boolean {
+export function instanceOfFieldLink(value: object): boolean {
     return true;
 }
 
-export function MetaFromJSON(json: any): Meta {
-    return MetaFromJSONTyped(json, false);
+export function FieldLinkFromJSON(json: any): FieldLink {
+    return FieldLinkFromJSONTyped(json, false);
 }
 
-export function MetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Meta {
+export function FieldLinkFromJSONTyped(json: any, ignoreDiscriminator: boolean): FieldLink {
     if (json == null) {
         return json;
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
-        'image': json['image'] == null ? undefined : json['image'],
-        'title': json['title'] == null ? undefined : json['title'],
+        'type': json['type'] == null ? undefined : json['type'],
+        'target': json['target'] == null ? undefined : json['target'],
+        'raw': json['raw'] == null ? undefined : json['raw'],
+        'href': json['href'] == null ? undefined : json['href'],
+        'extras': json['extras'] == null ? undefined : json['extras'],
     };
 }
 
-export function MetaToJSON(value?: Meta | null): any {
+export function FieldLinkToJSON(value?: FieldLink | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'description': value['description'],
-        'image': value['image'],
-        'title': value['title'],
+        'type': value['type'],
+        'target': value['target'],
+        'raw': value['raw'],
+        'href': value['href'],
+        'extras': value['extras'],
     };
 }
 

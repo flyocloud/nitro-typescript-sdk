@@ -16,61 +16,101 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Meta
+ * @interface FieldAddress
  */
-export interface Meta {
+export interface FieldAddress {
     /**
-     * Meta Description
-     * @type {string}
-     * @memberof Meta
+     * 
+     * @type {number}
+     * @memberof FieldAddress
      */
-    description?: string;
+    zip?: number;
     /**
-     * Path to meta image
+     * 
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldAddress
      */
-    image?: string;
+    city?: string;
     /**
-     * Meta page title
+     * 
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldAddress
      */
-    title?: string;
+    street_name?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FieldAddress
+     */
+    street_nr?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FieldAddress
+     */
+    street?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FieldAddress
+     */
+    address?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FieldAddress
+     */
+    cords_lat?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FieldAddress
+     */
+    cords_lng?: number;
 }
 
 /**
- * Check if a given object implements the Meta interface.
+ * Check if a given object implements the FieldAddress interface.
  */
-export function instanceOfMeta(value: object): boolean {
+export function instanceOfFieldAddress(value: object): boolean {
     return true;
 }
 
-export function MetaFromJSON(json: any): Meta {
-    return MetaFromJSONTyped(json, false);
+export function FieldAddressFromJSON(json: any): FieldAddress {
+    return FieldAddressFromJSONTyped(json, false);
 }
 
-export function MetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Meta {
+export function FieldAddressFromJSONTyped(json: any, ignoreDiscriminator: boolean): FieldAddress {
     if (json == null) {
         return json;
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
-        'image': json['image'] == null ? undefined : json['image'],
-        'title': json['title'] == null ? undefined : json['title'],
+        'zip': json['zip'] == null ? undefined : json['zip'],
+        'city': json['city'] == null ? undefined : json['city'],
+        'street_name': json['street_name'] == null ? undefined : json['street_name'],
+        'street_nr': json['street_nr'] == null ? undefined : json['street_nr'],
+        'street': json['street'] == null ? undefined : json['street'],
+        'address': json['address'] == null ? undefined : json['address'],
+        'cords_lat': json['cords_lat'] == null ? undefined : json['cords_lat'],
+        'cords_lng': json['cords_lng'] == null ? undefined : json['cords_lng'],
     };
 }
 
-export function MetaToJSON(value?: Meta | null): any {
+export function FieldAddressToJSON(value?: FieldAddress | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'description': value['description'],
-        'image': value['image'],
-        'title': value['title'],
+        'zip': value['zip'],
+        'city': value['city'],
+        'street_name': value['street_name'],
+        'street_nr': value['street_nr'],
+        'street': value['street'],
+        'address': value['address'],
+        'cords_lat': value['cords_lat'],
+        'cords_lng': value['cords_lng'],
     };
 }
 

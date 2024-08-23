@@ -16,61 +16,77 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Meta
+ * @interface FieldFile
  */
-export interface Meta {
+export interface FieldFile {
     /**
-     * Meta Description
+     * Manipulatable image path, see https://dev.flyo.cloud/infos/images.html.
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldFile
      */
-    description?: string;
+    source?: string;
     /**
-     * Path to meta image
+     * Describes the file or image
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldFile
      */
-    image?: string;
+    caption?: string;
     /**
-     * Meta page title
+     * 
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldFile
      */
-    title?: string;
+    copyright?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FieldFile
+     */
+    name?: string;
+    /**
+     * The unique identifier of the file or image as incremental number.
+     * @type {number}
+     * @memberof FieldFile
+     */
+    id?: number;
 }
 
 /**
- * Check if a given object implements the Meta interface.
+ * Check if a given object implements the FieldFile interface.
  */
-export function instanceOfMeta(value: object): boolean {
+export function instanceOfFieldFile(value: object): boolean {
     return true;
 }
 
-export function MetaFromJSON(json: any): Meta {
-    return MetaFromJSONTyped(json, false);
+export function FieldFileFromJSON(json: any): FieldFile {
+    return FieldFileFromJSONTyped(json, false);
 }
 
-export function MetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Meta {
+export function FieldFileFromJSONTyped(json: any, ignoreDiscriminator: boolean): FieldFile {
     if (json == null) {
         return json;
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
-        'image': json['image'] == null ? undefined : json['image'],
-        'title': json['title'] == null ? undefined : json['title'],
+        'source': json['source'] == null ? undefined : json['source'],
+        'caption': json['caption'] == null ? undefined : json['caption'],
+        'copyright': json['copyright'] == null ? undefined : json['copyright'],
+        'name': json['name'] == null ? undefined : json['name'],
+        'id': json['id'] == null ? undefined : json['id'],
     };
 }
 
-export function MetaToJSON(value?: Meta | null): any {
+export function FieldFileToJSON(value?: FieldFile | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'description': value['description'],
-        'image': value['image'],
-        'title': value['title'],
+        'source': value['source'],
+        'caption': value['caption'],
+        'copyright': value['copyright'],
+        'name': value['name'],
+        'id': value['id'],
     };
 }
 

@@ -16,61 +16,61 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Meta
+ * @interface FieldCheckboxList
  */
-export interface Meta {
+export interface FieldCheckboxList {
     /**
-     * Meta Description
-     * @type {string}
-     * @memberof Meta
+     * 
+     * @type {Array<string>}
+     * @memberof FieldCheckboxList
      */
-    description?: string;
+    values?: Array<string>;
     /**
-     * Path to meta image
-     * @type {string}
-     * @memberof Meta
+     * All Options which are available in the checkbox and the user can select from
+     * @type {object}
+     * @memberof FieldCheckboxList
      */
-    image?: string;
+    options?: object;
     /**
-     * Meta page title
-     * @type {string}
-     * @memberof Meta
+     * 
+     * @type {Array<string>}
+     * @memberof FieldCheckboxList
      */
-    title?: string;
+    labels?: Array<string>;
 }
 
 /**
- * Check if a given object implements the Meta interface.
+ * Check if a given object implements the FieldCheckboxList interface.
  */
-export function instanceOfMeta(value: object): boolean {
+export function instanceOfFieldCheckboxList(value: object): boolean {
     return true;
 }
 
-export function MetaFromJSON(json: any): Meta {
-    return MetaFromJSONTyped(json, false);
+export function FieldCheckboxListFromJSON(json: any): FieldCheckboxList {
+    return FieldCheckboxListFromJSONTyped(json, false);
 }
 
-export function MetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Meta {
+export function FieldCheckboxListFromJSONTyped(json: any, ignoreDiscriminator: boolean): FieldCheckboxList {
     if (json == null) {
         return json;
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
-        'image': json['image'] == null ? undefined : json['image'],
-        'title': json['title'] == null ? undefined : json['title'],
+        'values': json['values'] == null ? undefined : json['values'],
+        'options': json['options'] == null ? undefined : json['options'],
+        'labels': json['labels'] == null ? undefined : json['labels'],
     };
 }
 
-export function MetaToJSON(value?: Meta | null): any {
+export function FieldCheckboxListToJSON(value?: FieldCheckboxList | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'description': value['description'],
-        'image': value['image'],
-        'title': value['title'],
+        'values': value['values'],
+        'options': value['options'],
+        'labels': value['labels'],
     };
 }
 

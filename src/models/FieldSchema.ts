@@ -16,61 +16,53 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Meta
+ * @interface FieldSchema
  */
-export interface Meta {
+export interface FieldSchema {
     /**
-     * Meta Description
-     * @type {string}
-     * @memberof Meta
+     * 
+     * @type {number}
+     * @memberof FieldSchema
      */
-    description?: string;
+    id?: number;
     /**
-     * Path to meta image
+     * 
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldSchema
      */
-    image?: string;
-    /**
-     * Meta page title
-     * @type {string}
-     * @memberof Meta
-     */
-    title?: string;
+    unique_id?: string;
 }
 
 /**
- * Check if a given object implements the Meta interface.
+ * Check if a given object implements the FieldSchema interface.
  */
-export function instanceOfMeta(value: object): boolean {
+export function instanceOfFieldSchema(value: object): boolean {
     return true;
 }
 
-export function MetaFromJSON(json: any): Meta {
-    return MetaFromJSONTyped(json, false);
+export function FieldSchemaFromJSON(json: any): FieldSchema {
+    return FieldSchemaFromJSONTyped(json, false);
 }
 
-export function MetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Meta {
+export function FieldSchemaFromJSONTyped(json: any, ignoreDiscriminator: boolean): FieldSchema {
     if (json == null) {
         return json;
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
-        'image': json['image'] == null ? undefined : json['image'],
-        'title': json['title'] == null ? undefined : json['title'],
+        'id': json['id'] == null ? undefined : json['id'],
+        'unique_id': json['unique_id'] == null ? undefined : json['unique_id'],
     };
 }
 
-export function MetaToJSON(value?: Meta | null): any {
+export function FieldSchemaToJSON(value?: FieldSchema | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'description': value['description'],
-        'image': value['image'],
-        'title': value['title'],
+        'id': value['id'],
+        'unique_id': value['unique_id'],
     };
 }
 

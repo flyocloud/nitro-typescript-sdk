@@ -16,61 +16,61 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Meta
+ * @interface FieldDropdown
  */
-export interface Meta {
+export interface FieldDropdown {
     /**
-     * Meta Description
+     * The option value which has been selected in flyo.
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldDropdown
      */
-    description?: string;
+    value?: string;
     /**
-     * Path to meta image
-     * @type {string}
-     * @memberof Meta
+     * All Options which are available in the dropdown and the user can select from
+     * @type {object}
+     * @memberof FieldDropdown
      */
-    image?: string;
+    options?: object;
     /**
-     * Meta page title
+     * The option label which has been selected in flyo.
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldDropdown
      */
-    title?: string;
+    label?: string;
 }
 
 /**
- * Check if a given object implements the Meta interface.
+ * Check if a given object implements the FieldDropdown interface.
  */
-export function instanceOfMeta(value: object): boolean {
+export function instanceOfFieldDropdown(value: object): boolean {
     return true;
 }
 
-export function MetaFromJSON(json: any): Meta {
-    return MetaFromJSONTyped(json, false);
+export function FieldDropdownFromJSON(json: any): FieldDropdown {
+    return FieldDropdownFromJSONTyped(json, false);
 }
 
-export function MetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Meta {
+export function FieldDropdownFromJSONTyped(json: any, ignoreDiscriminator: boolean): FieldDropdown {
     if (json == null) {
         return json;
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
-        'image': json['image'] == null ? undefined : json['image'],
-        'title': json['title'] == null ? undefined : json['title'],
+        'value': json['value'] == null ? undefined : json['value'],
+        'options': json['options'] == null ? undefined : json['options'],
+        'label': json['label'] == null ? undefined : json['label'],
     };
 }
 
-export function MetaToJSON(value?: Meta | null): any {
+export function FieldDropdownToJSON(value?: FieldDropdown | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'description': value['description'],
-        'image': value['image'],
-        'title': value['title'],
+        'value': value['value'],
+        'options': value['options'],
+        'label': value['label'],
     };
 }
 

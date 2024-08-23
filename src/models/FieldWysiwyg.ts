@@ -16,61 +16,53 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Meta
+ * @interface FieldWysiwyg
  */
-export interface Meta {
+export interface FieldWysiwyg {
     /**
-     * Meta Description
+     * 
      * @type {string}
-     * @memberof Meta
+     * @memberof FieldWysiwyg
      */
-    description?: string;
+    html?: string;
     /**
-     * Path to meta image
-     * @type {string}
-     * @memberof Meta
+     * The TipTap json annotation can be parsed to html with a library f.e. https://github.com/ueberdosis/tiptap-php
+     * @type {object}
+     * @memberof FieldWysiwyg
      */
-    image?: string;
-    /**
-     * Meta page title
-     * @type {string}
-     * @memberof Meta
-     */
-    title?: string;
+    json?: object;
 }
 
 /**
- * Check if a given object implements the Meta interface.
+ * Check if a given object implements the FieldWysiwyg interface.
  */
-export function instanceOfMeta(value: object): boolean {
+export function instanceOfFieldWysiwyg(value: object): boolean {
     return true;
 }
 
-export function MetaFromJSON(json: any): Meta {
-    return MetaFromJSONTyped(json, false);
+export function FieldWysiwygFromJSON(json: any): FieldWysiwyg {
+    return FieldWysiwygFromJSONTyped(json, false);
 }
 
-export function MetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Meta {
+export function FieldWysiwygFromJSONTyped(json: any, ignoreDiscriminator: boolean): FieldWysiwyg {
     if (json == null) {
         return json;
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
-        'image': json['image'] == null ? undefined : json['image'],
-        'title': json['title'] == null ? undefined : json['title'],
+        'html': json['html'] == null ? undefined : json['html'],
+        'json': json['json'] == null ? undefined : json['json'],
     };
 }
 
-export function MetaToJSON(value?: Meta | null): any {
+export function FieldWysiwygToJSON(value?: FieldWysiwyg | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'description': value['description'],
-        'image': value['image'],
-        'title': value['title'],
+        'html': value['html'],
+        'json': value['json'],
     };
 }
 
