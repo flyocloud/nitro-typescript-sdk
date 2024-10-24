@@ -9,7 +9,7 @@ src/apis/VersionApi.ts
 src/apis/index.ts
 src/index.ts
 src/models/Block.ts
-src/models/BlockSlots.ts
+src/models/BlockSlot.ts
 src/models/ConfigResponse.ts
 src/models/ConfigResponseContainersValue.ts
 src/models/ConfigResponseNitro.ts
@@ -17,14 +17,6 @@ src/models/Entity.ts
 src/models/EntityInterface.ts
 src/models/EntityMetric.ts
 src/models/EntityinterfaceInner.ts
-src/models/FieldAddress.ts
-src/models/FieldCheckboxList.ts
-src/models/FieldDropdown.ts
-src/models/FieldFile.ts
-src/models/FieldImage.ts
-src/models/FieldLink.ts
-src/models/FieldSchema.ts
-src/models/FieldWysiwyg.ts
 src/models/Meta.ts
 src/models/Page.ts
 src/models/PageBreadcrumbInner.ts
