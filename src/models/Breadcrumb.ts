@@ -14,87 +14,63 @@
 
 import { mapValues } from '../runtime';
 /**
- * The Nitro section of the API provides essential details about the currently configured Nitro system.
+ * 
  * @export
- * @interface ConfigResponseNitro
+ * @interface Breadcrumb
  */
-export interface ConfigResponseNitro {
+export interface Breadcrumb {
     /**
-     * 
+     * A URL-friendly identifier, typically lowercase, that is compatible with URI format and does not contain spaces or special characters.
      * @type {string}
-     * @memberof ConfigResponseNitro
-     */
-    domain?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ConfigResponseNitro
+     * @memberof Breadcrumb
      */
     slug?: string;
     /**
-     * Whenever Flyo generates new data, the version number will be appropriately incremented. If this value is employed for caching, it will undergo less frequent purging in comparison to the `updated_at` value, thus extending its longevity. (last longer)
-     * @type {number}
-     * @memberof ConfigResponseNitro
-     */
-    version?: number;
-    /**
-     * A Unix timestamp indicating when the Nitro was last updated. This timestamp does not correlate with the version number. If this value is utilized for caching purposes, it will experience more frequent purges compared to the version number, leading to shorter caching intervals. (last shorter)
-     * @type {number}
-     * @memberof ConfigResponseNitro
-     */
-    updated_at?: number;
-    /**
-     * Current language context for the config.
+     * The title
      * @type {string}
-     * @memberof ConfigResponseNitro
+     * @memberof Breadcrumb
      */
-    language?: string;
+    title?: string;
     /**
-     * The primary language of the nitro integration
+     * Returns the completed href tag. Internal links are appended with trailing slashes, such as `/about-me`, while email links are formatted with `mailto:hello@flyo.ch`.
      * @type {string}
-     * @memberof ConfigResponseNitro
+     * @memberof Breadcrumb
      */
-    primary_language?: string;
+    href?: string;
 }
 
 /**
- * Check if a given object implements the ConfigResponseNitro interface.
+ * Check if a given object implements the Breadcrumb interface.
  */
-export function instanceOfConfigResponseNitro(value: object): boolean {
+export function instanceOfBreadcrumb(value: object): boolean {
     return true;
 }
 
-export function ConfigResponseNitroFromJSON(json: any): ConfigResponseNitro {
-    return ConfigResponseNitroFromJSONTyped(json, false);
+export function BreadcrumbFromJSON(json: any): Breadcrumb {
+    return BreadcrumbFromJSONTyped(json, false);
 }
 
-export function ConfigResponseNitroFromJSONTyped(json: any, ignoreDiscriminator: boolean): ConfigResponseNitro {
+export function BreadcrumbFromJSONTyped(json: any, ignoreDiscriminator: boolean): Breadcrumb {
     if (json == null) {
         return json;
     }
     return {
         
-        'domain': json['domain'] == null ? undefined : json['domain'],
         'slug': json['slug'] == null ? undefined : json['slug'],
-        'version': json['version'] == null ? undefined : json['version'],
-        'updated_at': json['updated_at'] == null ? undefined : json['updated_at'],
-        'language': json['language'] == null ? undefined : json['language'],
-        'primary_language': json['primary_language'] == null ? undefined : json['primary_language'],
+        'title': json['title'] == null ? undefined : json['title'],
+        'href': json['href'] == null ? undefined : json['href'],
     };
 }
 
-export function ConfigResponseNitroToJSON(value?: ConfigResponseNitro | null): any {
+export function BreadcrumbToJSON(value?: Breadcrumb | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'domain': value['domain'],
         'slug': value['slug'],
-        'version': value['version'],
-        'updated_at': value['updated_at'],
-        'language': value['language'],
-        'primary_language': value['primary_language'],
+        'title': value['title'],
+        'href': value['href'],
     };
 }
 
