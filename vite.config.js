@@ -15,7 +15,9 @@ export default defineConfig(() => {
     },
     plugins: [
       // Other plugins...
-      dts(),
+      dts({
+        
+      }),
     ],
   };
 });

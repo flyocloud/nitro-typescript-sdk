@@ -16,58 +16,66 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface TranslationLanguage
+ * @interface PagePropertyValue
  */
-export interface TranslationLanguage {
+export interface PagePropertyValue {
     /**
-     * Language shortcode, e.g., "de" or "fr".
-     * @type {string}
-     * @memberof TranslationLanguage
+     * 
+     * @type {any}
+     * @memberof PagePropertyValue
      */
-    shortcode?: string;
+    value?: any | null;
     /**
-     * Full name of the language, e.g., "Deutsch" or "Französisch".
-     * @type {string}
-     * @memberof TranslationLanguage
+     * Whether or not this item is visible in the navigation.
+     * @type {boolean}
+     * @memberof PagePropertyValue
      */
-    name?: string;
+    navigation?: boolean;
+    /**
+     * Determining whether the value is carried over from the parent page or not.
+     * @type {boolean}
+     * @memberof PagePropertyValue
+     */
+    propagate?: boolean;
 }
 
 /**
- * Check if a given object implements the TranslationLanguage interface.
+ * Check if a given object implements the PagePropertyValue interface.
  */
-export function instanceOfTranslationLanguage(value: object): value is TranslationLanguage {
+export function instanceOfPagePropertyValue(value: object): value is PagePropertyValue {
     return true;
 }
 
-export function TranslationLanguageFromJSON(json: any): TranslationLanguage {
-    return TranslationLanguageFromJSONTyped(json, false);
+export function PagePropertyValueFromJSON(json: any): PagePropertyValue {
+    return PagePropertyValueFromJSONTyped(json, false);
 }
 
-export function TranslationLanguageFromJSONTyped(json: any, ignoreDiscriminator: boolean): TranslationLanguage {
+export function PagePropertyValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): PagePropertyValue {
     if (json == null) {
         return json;
     }
     return {
         
-        'shortcode': json['shortcode'] == null ? undefined : json['shortcode'],
-        'name': json['name'] == null ? undefined : json['name'],
+        'value': json['value'] == null ? undefined : json['value'],
+        'navigation': json['navigation'] == null ? undefined : json['navigation'],
+        'propagate': json['propagate'] == null ? undefined : json['propagate'],
     };
 }
 
-export function TranslationLanguageToJSON(json: any): TranslationLanguage {
-    return TranslationLanguageToJSONTyped(json, false);
+export function PagePropertyValueToJSON(json: any): PagePropertyValue {
+    return PagePropertyValueToJSONTyped(json, false);
 }
 
-export function TranslationLanguageToJSONTyped(value?: TranslationLanguage | null, ignoreDiscriminator: boolean = false): any {
+export function PagePropertyValueToJSONTyped(value?: PagePropertyValue | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'shortcode': value['shortcode'],
-        'name': value['name'],
+        'value': value['value'],
+        'navigation': value['navigation'],
+        'propagate': value['propagate'],
     };
 }
 

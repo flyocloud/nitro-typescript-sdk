@@ -9,7 +9,7 @@ src/apis/VersionApi.ts
 src/apis/index.ts
 src/index.ts
 src/models/Block.ts
-src/models/BlockSlot.ts
+src/models/BlockSlotValue.ts
 src/models/Breadcrumb.ts
 src/models/ConfigResponse.ts
 src/models/ConfigResponseContainersValue.ts
@@ -21,7 +21,7 @@ src/models/EntityMetric.ts
 src/models/EntityinterfaceInner.ts
 src/models/Meta.ts
 src/models/Page.ts
-src/models/PageProperty.ts
+src/models/PagePropertyValue.ts
 src/models/Translation.ts
 src/models/TranslationLanguage.ts
 src/models/VersionResponse.ts

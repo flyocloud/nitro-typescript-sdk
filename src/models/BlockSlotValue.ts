@@ -13,61 +13,69 @@
  */
 
 import { mapValues } from '../runtime';
+import type { Block } from './Block';
+import {
+    BlockFromJSON,
+    BlockFromJSONTyped,
+    BlockToJSON,
+    BlockToJSONTyped,
+} from './Block';
+
 /**
  * 
  * @export
- * @interface TranslationLanguage
+ * @interface BlockSlotValue
  */
-export interface TranslationLanguage {
+export interface BlockSlotValue {
     /**
-     * Language shortcode, e.g., "de" or "fr".
+     * The unique identifier of the slot
      * @type {string}
-     * @memberof TranslationLanguage
+     * @memberof BlockSlotValue
      */
-    shortcode?: string;
+    identifier?: string;
     /**
-     * Full name of the language, e.g., "Deutsch" or "Französisch".
-     * @type {string}
-     * @memberof TranslationLanguage
+     * 
+     * @type {Array<Block>}
+     * @memberof BlockSlotValue
      */
-    name?: string;
+    content?: Array<Block>;
 }
 
 /**
- * Check if a given object implements the TranslationLanguage interface.
+ * Check if a given object implements the BlockSlotValue interface.
  */
-export function instanceOfTranslationLanguage(value: object): value is TranslationLanguage {
+export function instanceOfBlockSlotValue(value: object): value is BlockSlotValue {
     return true;
 }
 
-export function TranslationLanguageFromJSON(json: any): TranslationLanguage {
-    return TranslationLanguageFromJSONTyped(json, false);
+export function BlockSlotValueFromJSON(json: any): BlockSlotValue {
+    return BlockSlotValueFromJSONTyped(json, false);
 }
 
-export function TranslationLanguageFromJSONTyped(json: any, ignoreDiscriminator: boolean): TranslationLanguage {
+export function BlockSlotValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): BlockSlotValue {
     if (json == null) {
         return json;
     }
     return {
         
-        'shortcode': json['shortcode'] == null ? undefined : json['shortcode'],
-        'name': json['name'] == null ? undefined : json['name'],
+        'identifier': json['identifier'] == null ? undefined : json['identifier'],
+        'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(BlockFromJSON)),
     };
 }
 
-export function TranslationLanguageToJSON(json: any): TranslationLanguage {
-    return TranslationLanguageToJSONTyped(json, false);
+export function BlockSlotValueToJSON(json: any): BlockSlotValue {
+    return BlockSlotValueToJSONTyped(json, false);
 }
 
-export function TranslationLanguageToJSONTyped(value?: TranslationLanguage | null, ignoreDiscriminator: boolean = false): any {
+export function BlockSlotValueToJSONTyped(value?: BlockSlotValue | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'shortcode': value['shortcode'],
-        'name': value['name'],
+        'identifier': value['identifier'],
+        'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(BlockToJSON)),
     };
 }
 
