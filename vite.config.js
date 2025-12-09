@@ -14,9 +14,10 @@ export default defineConfig(() => {
       },
     },
     plugins: [
-      // Other plugins...
       dts({
-        
+        outDir: 'dist',
+        insertTypesEntry: true,
+        rollupTypes: true,
       }),
     ],
   };
