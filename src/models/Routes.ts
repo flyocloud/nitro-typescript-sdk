@@ -14,68 +14,55 @@
 
 import { mapValues } from '../runtime';
 /**
- * 
+ * Map of resolved route identifiers to URL paths, for example `routes.detail = "/foo-bar"`. Includes the system key `_empty` (boolean): `false` means at least one route could be resolved, `true` means no route is available for the current context.
  * @export
- * @interface PagePropertyValue
+ * @interface Routes
  */
-export interface PagePropertyValue {
+export interface Routes {
+    [key: string]: string | any;
     /**
-     * 
-     * @type {any}
-     * @memberof PagePropertyValue
-     */
-    value?: any | null;
-    /**
-     * Whether or not this item is visible in the navigation.
+     * Whether no route could be resolved (`true` when the map has no routes).
      * @type {boolean}
-     * @memberof PagePropertyValue
+     * @memberof Routes
      */
-    navigation?: boolean;
-    /**
-     * Determining whether the value is carried over from the parent page or not.
-     * @type {boolean}
-     * @memberof PagePropertyValue
-     */
-    propagate?: boolean;
+    _empty?: boolean;
 }
 
 /**
- * Check if a given object implements the PagePropertyValue interface.
+ * Check if a given object implements the Routes interface.
  */
-export function instanceOfPagePropertyValue(value: object): value is PagePropertyValue {
+export function instanceOfRoutes(value: object): value is Routes {
     return true;
 }
 
-export function PagePropertyValueFromJSON(json: any): PagePropertyValue {
-    return PagePropertyValueFromJSONTyped(json, false);
+export function RoutesFromJSON(json: any): Routes {
+    return RoutesFromJSONTyped(json, false);
 }
 
-export function PagePropertyValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): PagePropertyValue {
+export function RoutesFromJSONTyped(json: any, ignoreDiscriminator: boolean): Routes {
     if (json == null) {
         return json;
     }
     return {
         
-        'value': json['value'] == null ? undefined : json['value'],
-        'navigation': json['navigation'] == null ? undefined : json['navigation'],
-        'propagate': json['propagate'] == null ? undefined : json['propagate'],
+            ...json,
+        '_empty': json['_empty'] == null ? undefined : json['_empty'],
     };
 }
 
-export function PagePropertyValueToJSON(json: any): PagePropertyValue {
-    return PagePropertyValueToJSONTyped(json, false);
+export function RoutesToJSON(json: any): Routes {
+    return RoutesToJSONTyped(json, false);
 }
 
-export function PagePropertyValueToJSONTyped(value?: PagePropertyValue | null, ignoreDiscriminator: boolean = false): any {
+export function RoutesToJSONTyped(value?: Routes | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'value': value['value'],
-        'navigation': value['navigation'],
-        'propagate': value['propagate'],
+            ...value,
+        '_empty': value['_empty'],
     };
 }
 
