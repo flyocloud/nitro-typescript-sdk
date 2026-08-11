@@ -12,70 +12,34 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
 /**
- * 
+ * @type MetaImage
+ * Path to the meta image, or `false` (boolean) when no meta image is set.
  * @export
- * @interface PagePropertyValue
  */
-export interface PagePropertyValue {
-    /**
-     * 
-     * @type {any}
-     * @memberof PagePropertyValue
-     */
-    value?: any | null;
-    /**
-     * Whether or not this item is visible in the navigation.
-     * @type {boolean}
-     * @memberof PagePropertyValue
-     */
-    navigation?: boolean;
-    /**
-     * Determining whether the value is carried over from the parent page or not.
-     * @type {boolean}
-     * @memberof PagePropertyValue
-     */
-    propagate?: boolean;
+export type MetaImage = boolean | string;
+
+export function MetaImageFromJSON(json: any): MetaImage {
+    return MetaImageFromJSONTyped(json, false);
 }
 
-/**
- * Check if a given object implements the PagePropertyValue interface.
- */
-export function instanceOfPagePropertyValue(value: object): value is PagePropertyValue {
-    return true;
-}
-
-export function PagePropertyValueFromJSON(json: any): PagePropertyValue {
-    return PagePropertyValueFromJSONTyped(json, false);
-}
-
-export function PagePropertyValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): PagePropertyValue {
+export function MetaImageFromJSONTyped(json: any, ignoreDiscriminator: boolean): MetaImage {
     if (json == null) {
         return json;
     }
-    return {
-        
-        'value': json['value'] == null ? undefined : json['value'],
-        'navigation': json['navigation'] == null ? undefined : json['navigation'],
-        'propagate': json['propagate'] == null ? undefined : json['propagate'],
-    };
+
+    return {} as any;
 }
 
-export function PagePropertyValueToJSON(json: any): PagePropertyValue {
-    return PagePropertyValueToJSONTyped(json, false);
+export function MetaImageToJSON(json: any): any {
+    return MetaImageToJSONTyped(json, false);
 }
 
-export function PagePropertyValueToJSONTyped(value?: PagePropertyValue | null, ignoreDiscriminator: boolean = false): any {
+export function MetaImageToJSONTyped(value?: MetaImage | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
-    return {
-        
-        'value': value['value'],
-        'navigation': value['navigation'],
-        'propagate': value['propagate'],
-    };
+    return {};
 }
 
