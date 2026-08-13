@@ -9,11 +9,11 @@ import {
   PagePropertyValueFromJSON,
 } from './../dist/index.mjs';
 
-// A real meta image URL as the API sends it, kept verbatim: the bug these tests
-// guard against was invisible with placeholder values, because the deserializer
-// discarded *every* input equally.
+// Invented fixture data in the shape the API returns: an absolute URL with no
+// query string of its own. The value itself is irrelevant to the bug under test —
+// the broken deserializer discarded *every* input equally.
 const META_IMAGE_URL =
-  'https://storage.flyo.cloud/74_qqLngDWbpvKrcJ_skb2026baseleditionsmockupseditionenog-image.jpg';
+  'https://storage.flyo.cloud/1_RubberDuck0001_quack-driven-development-og-image.jpg';
 
 describe('MetaImage (oneOf string | boolean)', () => {
   // `meta_json.image` is declared in the OpenAPI spec as `oneOf: [string, boolean]`
@@ -55,13 +55,13 @@ describe('MetaImage (oneOf string | boolean)', () => {
 describe('Meta', () => {
   test('deserializes a full meta object without losing the image', () => {
     const meta = MetaFromJSON({
-      title: 'Stadtguide, Magazin & Stadtgeschichten',
-      description: 'Basel Editions vereint Places, Experiences und Moments.',
+      title: 'Quack-Driven Development & Other Field Notes',
+      description: 'Explain the bug to a small plastic bird until it fixes itself.',
       image: META_IMAGE_URL,
     });
 
-    expect(meta.title).toBe('Stadtguide, Magazin & Stadtgeschichten');
-    expect(meta.description).toBe('Basel Editions vereint Places, Experiences und Moments.');
+    expect(meta.title).toBe('Quack-Driven Development & Other Field Notes');
+    expect(meta.description).toBe('Explain the bug to a small plastic bird until it fixes itself.');
     expect(meta.image).toBe(META_IMAGE_URL);
     // Client libraries branch on `typeof image === 'string'` before building an
     // `og:image` URL, so the runtime type is the contract that matters.
@@ -95,8 +95,8 @@ describe('Page.meta_json', () => {
       title: 'Home',
       slug: '',
       meta_json: {
-        title: 'Stadtguide, Magazin & Stadtgeschichten',
-        description: 'Basel Editions vereint Places, Experiences und Moments.',
+        title: 'Quack-Driven Development & Other Field Notes',
+        description: 'Explain the bug to a small plastic bird until it fixes itself.',
         image: META_IMAGE_URL,
       },
     });

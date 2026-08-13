@@ -17,8 +17,8 @@ composed-object fallback, so `MetaImageFromJSON()` returned `{}` for every input
 
 ```js
 // v1.5.0
-MetaImageFromJSON('https://storage.flyo.cloud/…og-image.jpg')  // → {}
-MetaImageFromJSON(false)                                       // → {}
+MetaImageFromJSON('https://storage.flyo.cloud/1_Abc123_og-image.jpg')  // → {}
+MetaImageFromJSON(false)                                               // → {}
 ```
 
 Every meta image URL was destroyed, and pages shipped no `og:image` or
