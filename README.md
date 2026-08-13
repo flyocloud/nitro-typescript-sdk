@@ -4,6 +4,10 @@
 npm install @flyo/nitro-typescript
 ```
 
+> **Upgrading from 1.5.0?** See [UPGRADE.md](UPGRADE.md). 1.5.0 discarded
+> `meta_json.image` during deserialization, so pages built with it shipped no
+> `og:image`. Upgrade to `^1.6.0`.
+
 ## Usage
 
 ### API Usage

@@ -24,3 +24,9 @@
 package.json
 tsconfig.json
 README.md
+
+# Supporting files 7.24.0 started emitting that this repo does not use: the
+# bundle is built by vite (see vite.config.js), not by `tsc -p tsconfig.esm.json`,
+# and the reference docs live in README.md rather than a generated docs/ tree.
+tsconfig.esm.json
+docs/**
