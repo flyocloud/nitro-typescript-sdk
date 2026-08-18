@@ -1,57 +1,72 @@
-# Upgrading from v1.6.0 to v1.6.1
+# Upgrading from v1.6 to v1.7
 
-**No consumer action required.** This is a build-toolchain-only release: the
-generated sources are untouched and `dist/index.d.ts` is **byte-identical** to
-v1.6.0, so every type, method signature, and export stays exactly as it was.
+v1.7 regenerates the SDK against **OpenAPI document 2.30** (was 2.28.1). No
+endpoint, parameter, or method signature changed. One model was removed and the
+`routes` property was retyped on two models — see below.
 
-## What changed
+## The `Routes` model is gone
 
-Dev dependencies were upgraded to their latest supported releases, which clears
-all 20 `npm audit` advisories (9 moderate, 10 high, 1 critical) that the old
-build chain carried:
+`routes` used to be a `$ref` to a named `Routes` schema; 2.30 inlines it as a
+free-form object. The generator therefore no longer emits `src/models/Routes.ts`,
+and these exports **no longer exist**:
 
-| Package | v1.6.0 | v1.6.1 |
+- `Routes` (the type)
+- `RoutesFromJSON`, `RoutesFromJSONTyped`
+- `RoutesToJSON`, `RoutesToJSONTyped`
+- `instanceOfRoutes`
+
+⚠️ **Fix this:** any `import { Routes } from '@flyo/nitro-typescript'` — or a
+`Routes` type annotation — stops compiling. The value it described is unchanged,
+so replace the annotation with the inline type:
+
+```ts
+// before
+import type { Routes } from '@flyo/nitro-typescript';
+function firstRoute(routes: Routes) { … }
+
+// after
+function firstRoute(routes: { [key: string]: any }) { … }
+```
+
+Deserialization is effectively unchanged: `RoutesFromJSON()` spread the raw map
+through untouched, and `routes` is now assigned directly instead. The single
+observable difference is an explicit `"_empty": null` from the API — v1.6 coerced
+it to `undefined` (dropping the key), v1.7 preserves the `null`. Use
+`routes._empty == null` if you need to treat both alike.
+
+## `routes` is now `{ [key: string]: any }`
+
+On both `EntityInterface` and `EntityinterfaceInner`:
+
+| Model | v1.6 | v1.7 |
 | --- | --- | --- |
-| `vite` | ^5.0.12 | ^8.2.1 |
-| `vitest` | ^1.2.1 | ^4.1.10 |
-| `vite-plugin-dts` | ^3.7.1 | ^5.0.3 |
-| `typescript` | ^5.3 | ^6.0.3 |
-| `@microsoft/api-extractor` | — | ^7.58.12 (new) |
+| `EntityInterface.routes` | `{ [key: string]: string }` | `{ [key: string]: any }` |
+| `EntityinterfaceInner.routes` | `Routes` | `{ [key: string]: any }` |
 
-`@microsoft/api-extractor` is now a direct dev dependency: `vite-plugin-dts` v5
-declares it as a **peer** rather than bundling it, and it is what rolls the
-declarations up into a single `dist/index.d.ts`.
+`EntityInterface.routes` was previously typed as a map of **strings**, which was
+wrong: the map always carried a boolean `_empty` key alongside the URL paths, so
+`routes._empty` was declared `string` while `false` arrived at runtime. The
+values are now `any`, which describes the mixed map honestly.
 
-## The published bundle is rebuilt, not rewritten
+- ✅ Reading a path (`routes.detail`) still type-checks and still returns a
+  string.
+- ✅ `EntityInterface.routes._empty` is now assignable to `boolean` without a
+  cast. (`EntityinterfaceInner.routes` already declared `_empty?: boolean` via
+  `Routes`.)
+- ⚠️ You lose `string` inference on the values. Code that relied on it — passing
+  `routes.detail` straight into a `string` parameter under `noImplicitAny` — keeps
+  working, but a narrowing guard is worth adding where the key is dynamic:
 
-Vite 8 bundles with rolldown/oxc instead of rollup/esbuild, so the minified
-output differs textually and `dist/index.mjs` drops from 38.6 kB to 27.9 kB
-(gzip 7.43 kB → 5.37 kB). Behaviour is unchanged — both bundles export the same
-119 symbols and produce identical request options, and the module formats are
-the same as before (ESM `index.mjs`, UMD `index.js`).
+```ts
+const path = routes[key];
+if (typeof path !== 'string') return undefined;
+```
 
-## TypeScript is held at 6.x on purpose
+## Everything else
 
-TypeScript 7.0 is the current `latest`, but it ships without the JavaScript
-Compiler API, and `@microsoft/api-extractor` 7.58.12 still analyses with a
-bundled TypeScript 5.9.3. Building on 7.0 — even with the
-`@typescript/typescript6` compatibility shim installed — fails the declaration
-rollup with `Internal Error: Unable to follow symbol for "Array"`. TypeScript
-6.0.3 builds cleanly and emits the same declarations, so the upgrade stops
-there. Revisit once api-extractor supports TypeScript 7.
-
-## Repo-side notes
-
-- **CI now runs Node 22** (was Node 20, which is end-of-life). Vite 8 requires
-  `^20.19.0 || >=22.12.0`.
-- `vite-plugin-dts` v5 renamed its options: `outDir` → `outDirs` and
-  `rollupTypes` → `bundleTypes`. Under the old names the rollup silently did not
-  run and `dist` shipped a stub `index.d.ts` plus loose per-file declaration
-  trees, so `vite.config.js` was updated accordingly. It also now scopes the
-  declaration program to `src` (`include`/`entryRoot`), which keeps the
-  root-level generator output out of the type build.
-- `vite.config.js` uses `import.meta.dirname` instead of `__dirname`, which Vite
-  8's native config loader warns about.
+No endpoint was added, removed, or changed. Every API method keeps its
+signature, and every other model is identical apart from the OpenAPI version
+string in its header comment.
 
 # Upgrading from v1.5 to v1.6
 

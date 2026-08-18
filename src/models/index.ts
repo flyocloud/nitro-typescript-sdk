@@ -15,7 +15,6 @@ export * from './Meta';
 export * from './MetaImage';
 export * from './Page';
 export * from './PagePropertyValue';
-export * from './Routes';
 export * from './Translation';
 export * from './TranslationLanguage';
 export * from './VersionResponse';
