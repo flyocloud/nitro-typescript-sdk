@@ -28,7 +28,10 @@ jobs:
         run: |
           TAG_NAME=${{ github.event.release.tag_name }}
           VERSION=${TAG_NAME#v}
-          npm version $VERSION --no-git-tag-version
+          # package.json carries the 0.0.1 stub, never a real version — the tag is
+          # the single source of truth. --allow-same-version keeps this from failing
+          # with "Version not changed" if the stub ever matches the tag.
+          npm version $VERSION --no-git-tag-version --allow-same-version
 
       - name: Publish to NPM
         run: npm publish --access public
