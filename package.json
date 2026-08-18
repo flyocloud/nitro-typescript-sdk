@@ -1,6 +1,6 @@
 {
   "name": "@flyo/nitro-typescript",
-  "version": "1.2.0",
+  "version": "1.7.0",
   "description": "OpenAPI client for @flyo/nitro-typescript",
   "author": "OpenAPI-Generator",
   "repository": {
@@ -28,9 +28,10 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "typescript": "^5.3",
-    "vite": "^5.0.12",
-    "vite-plugin-dts": "^3.7.1",
-    "vitest": "^1.2.1"
+    "@microsoft/api-extractor": "^7.58.12",
+    "typescript": "^6.0.3",
+    "vite": "^8.2.1",
+    "vite-plugin-dts": "^5.0.3",
+    "vitest": "^4.1.10"
   }
 }

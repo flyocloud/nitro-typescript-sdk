@@ -1,3 +1,73 @@
+# Upgrading from v1.6 to v1.7
+
+v1.7 regenerates the SDK against **OpenAPI document 2.30** (was 2.28.1). No
+endpoint, parameter, or method signature changed. One model was removed and the
+`routes` property was retyped on two models — see below.
+
+## The `Routes` model is gone
+
+`routes` used to be a `$ref` to a named `Routes` schema; 2.30 inlines it as a
+free-form object. The generator therefore no longer emits `src/models/Routes.ts`,
+and these exports **no longer exist**:
+
+- `Routes` (the type)
+- `RoutesFromJSON`, `RoutesFromJSONTyped`
+- `RoutesToJSON`, `RoutesToJSONTyped`
+- `instanceOfRoutes`
+
+⚠️ **Fix this:** any `import { Routes } from '@flyo/nitro-typescript'` — or a
+`Routes` type annotation — stops compiling. The value it described is unchanged,
+so replace the annotation with the inline type:
+
+```ts
+// before
+import type { Routes } from '@flyo/nitro-typescript';
+function firstRoute(routes: Routes) { … }
+
+// after
+function firstRoute(routes: { [key: string]: any }) { … }
+```
+
+Deserialization is effectively unchanged: `RoutesFromJSON()` spread the raw map
+through untouched, and `routes` is now assigned directly instead. The single
+observable difference is an explicit `"_empty": null` from the API — v1.6 coerced
+it to `undefined` (dropping the key), v1.7 preserves the `null`. Use
+`routes._empty == null` if you need to treat both alike.
+
+## `routes` is now `{ [key: string]: any }`
+
+On both `EntityInterface` and `EntityinterfaceInner`:
+
+| Model | v1.6 | v1.7 |
+| --- | --- | --- |
+| `EntityInterface.routes` | `{ [key: string]: string }` | `{ [key: string]: any }` |
+| `EntityinterfaceInner.routes` | `Routes` | `{ [key: string]: any }` |
+
+`EntityInterface.routes` was previously typed as a map of **strings**, which was
+wrong: the map always carried a boolean `_empty` key alongside the URL paths, so
+`routes._empty` was declared `string` while `false` arrived at runtime. The
+values are now `any`, which describes the mixed map honestly.
+
+- ✅ Reading a path (`routes.detail`) still type-checks and still returns a
+  string.
+- ✅ `EntityInterface.routes._empty` is now assignable to `boolean` without a
+  cast. (`EntityinterfaceInner.routes` already declared `_empty?: boolean` via
+  `Routes`.)
+- ⚠️ You lose `string` inference on the values. Code that relied on it — passing
+  `routes.detail` straight into a `string` parameter under `noImplicitAny` — keeps
+  working, but a narrowing guard is worth adding where the key is dynamic:
+
+```ts
+const path = routes[key];
+if (typeof path !== 'string') return undefined;
+```
+
+## Everything else
+
+No endpoint was added, removed, or changed. Every API method keeps its
+signature, and every other model is identical apart from the OpenAPI version
+string in its header comment.
+
 # Upgrading from v1.5 to v1.6
 
 v1.6 regenerates the SDK with **openapi-generator 7.24.0** (was 7.14.0). The

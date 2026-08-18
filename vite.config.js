@@ -8,16 +8,18 @@ export default defineConfig(() => {
   return {
     build: {
       lib: {
-        entry: path.resolve(__dirname, "src/index.ts"),
+        entry: path.resolve(import.meta.dirname, "src/index.ts"),
         name: "flyoNitroTypescript",
         fileName: (format) => (format === "es" ? `${name}.mjs` : `${name}.js`),
       },
     },
     plugins: [
       dts({
-        outDir: 'dist',
+        outDirs: 'dist',
+        include: ['src'],
+        entryRoot: 'src',
         insertTypesEntry: true,
-        rollupTypes: true,
+        bundleTypes: true,
       }),
     ],
   };

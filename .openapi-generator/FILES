@@ -23,7 +23,6 @@ src/models/Meta.ts
 src/models/MetaImage.ts
 src/models/Page.ts
 src/models/PagePropertyValue.ts
-src/models/Routes.ts
 src/models/Translation.ts
 src/models/TranslationLanguage.ts
 src/models/VersionResponse.ts
