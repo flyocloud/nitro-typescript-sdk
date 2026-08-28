@@ -4,9 +4,15 @@
 npm install @flyo/nitro-typescript
 ```
 
-> **Upgrading from 1.5.0?** See [UPGRADE.md](UPGRADE.md). 1.5.0 discarded
-> `meta_json.image` during deserialization, so pages built with it shipped no
-> `og:image`. Upgrade to `^1.6.0`.
+> **Upgrading to 2.0?** See [UPGRADE.md](UPGRADE.md). `SitemapApi.sitemap()` now
+> returns the reduced `SitemapinterfaceInner[]` instead of
+> `EntityinterfaceInner[]`, so a sitemap that reads `entity_title`,
+> `entity_teaser`, `entity_image`, `entity_time_start` or `entity_type_id` stops
+> compiling. A `^1.x` range does not resolve to 2.0 — bump it to `^2.0.0`.
+
+> **Still on 1.5.0?** 1.5.0 discarded `meta_json.image` during deserialization,
+> so pages built with it shipped no `og:image`. Any later version fixes it; see
+> [UPGRADE.md](UPGRADE.md).
 
 ## Usage
 

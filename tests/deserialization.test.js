@@ -7,6 +7,7 @@ import {
   PageFromJSON,
   EntityFromJSON,
   PagePropertyValueFromJSON,
+  SitemapinterfaceInnerFromJSON,
 } from './../dist/index.mjs';
 
 // Invented fixture data in the shape the API returns: an absolute URL with no
@@ -149,5 +150,71 @@ describe('PagePropertyValue.value', () => {
 
   test('passes a real value through', () => {
     expect(PagePropertyValueFromJSON({ value: 'blue' }).value).toBe('blue');
+  });
+});
+
+describe('Entity draft links', () => {
+  // Added by OpenAPI 2.35: `/entities/...` resolves a draft token to an offline
+  // snapshot and flags it with `is_draft` plus an expiry timestamp.
+  test('keeps `is_draft: false` as a boolean on a regular response', () => {
+    // `false` is the value every non-draft response carries — it must survive
+    // deserialization, or a "you are viewing a draft" banner can never be
+    // switched off by the flag alone.
+    const entity = EntityFromJSON({ id: 1, slug: 'a-place', is_draft: false, draft_expires_at: null });
+
+    expect(entity.is_draft).toBe(false);
+  });
+
+  test('preserves an explicit null expiry', () => {
+    expect(EntityFromJSON({ is_draft: false, draft_expires_at: null }).draft_expires_at).toBeNull();
+  });
+
+  test('reads a draft snapshot with its expiry', () => {
+    const entity = EntityFromJSON({
+      id: 1,
+      slug: 'k7Qd2XmRubberDuck',
+      is_draft: true,
+      draft_expires_at: 1774000000,
+    });
+
+    expect(entity.is_draft).toBe(true);
+    expect(entity.draft_expires_at).toBe(1774000000);
+  });
+
+  test('yields undefined when the API omits the fields', () => {
+    const entity = EntityFromJSON({ id: 1, slug: 'a-place' });
+
+    expect(entity.is_draft).toBeUndefined();
+    expect(entity.draft_expires_at).toBeUndefined();
+  });
+});
+
+describe('SitemapinterfaceInner', () => {
+  // 2.35 gave `/sitemap` its own reduced schema: `href`, `updated_at` and
+  // `entity_unique_id` are what a sitemap entry is built from.
+  test('deserializes the three fields a sitemap entry needs', () => {
+    const item = SitemapinterfaceInnerFromJSON({
+      entity_unique_id: '2348uc',
+      updated_at: 1712345678,
+      href: '/news/quack-driven-development',
+    });
+
+    expect(item.entity_unique_id).toBe('2348uc');
+    expect(item.updated_at).toBe(1712345678);
+    expect(item.href).toBe('/news/quack-driven-development');
+  });
+
+  test('still carries the deprecated URL-assembly fields', () => {
+    const item = SitemapinterfaceInnerFromJSON({
+      href: '/news/quack-driven-development',
+      entity_type: 'schema',
+      entity_slug: 'quack-driven-development',
+      routes: { detail: '/news/quack-driven-development', _empty: false },
+    });
+
+    expect(item.entity_type).toBe('schema');
+    expect(item.entity_slug).toBe('quack-driven-development');
+    expect(item.routes.detail).toBe('/news/quack-driven-development');
+    expect(item.routes._empty).toBe(false);
   });
 });
