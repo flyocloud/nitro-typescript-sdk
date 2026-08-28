@@ -31,7 +31,7 @@ The **git tag is the single source of truth** for the version. A version committ
 thing installable. `--allow-same-version` now stops that from being fatal, but the stub
 stays: nothing in the repo should claim a version.
 
-So: to release, cut a GitHub release with the tag (`1.8.0` or `v1.8.0` — the leading `v` is
+So: to release, cut a GitHub release with the tag (`2.0.0` or `v2.0.0` — the leading `v` is
 stripped). Nothing to commit, no version bump PR. If a release did fail, re-running the job
 replays the old workflow definition, so cut a fresh release instead.
 

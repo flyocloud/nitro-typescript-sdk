@@ -1,3 +1,189 @@
+# Upgrading from v1.7 to v2.0
+
+v2.0 regenerates the SDK against **OpenAPI document 2.35** (was 2.30), with the
+same generator (7.24.0). No endpoint, parameter, or request shape changed.
+
+It is a **major** release because the sitemap response type changed in a way
+that can break a build. Note that a `^1.x` range does **not** resolve to 2.0 —
+upgrading is a deliberate bump to `^2.0.0`, so nothing moves under you.
+
+Two things changed in the models:
+
+1. **Breaking:** `/sitemap` got its own response model. `sitemap()` no longer
+   returns `EntityinterfaceInner[]` — see below.
+2. **Additive:** `Entity` gained `is_draft` and `draft_expires_at` for draft
+   links.
+
+## `sitemap()` returns the new `SitemapinterfaceInner`
+
+The sitemap response used to reuse the entity/search model (`entityinterface`).
+2.35 gives it a schema of its own — "Sitemap Item" — which describes what the
+endpoint actually delivers: the URL, the timestamp, and the id to correlate the
+entry with its entity. So both methods change their return type:
+
+| Method | v1.7 | v2.0 |
+| --- | --- | --- |
+| `SitemapApi.sitemap()` | `Promise<Array<EntityinterfaceInner>>` | `Promise<Array<SitemapinterfaceInner>>` |
+| `SitemapApi.sitemapRaw()` | `Promise<ApiResponse<Array<EntityinterfaceInner>>>` | `Promise<ApiResponse<Array<SitemapinterfaceInner>>>` |
+
+`SearchApi.search()` still returns `EntityinterfaceInner[]` — that model is
+unchanged and is **not** deprecated. Only the sitemap moved off it.
+
+New exports, alongside the existing `Entityinterface*` ones:
+
+- `SitemapinterfaceInner` (the type)
+- `SitemapinterfaceInnerFromJSON`, `SitemapinterfaceInnerFromJSONTyped`
+- `SitemapinterfaceInnerToJSON`, `SitemapinterfaceInnerToJSONTyped`
+- `instanceOfSitemapinterfaceInner`
+
+### Five properties are gone from the sitemap item
+
+`SitemapinterfaceInner` carries `entity_unique_id`, `updated_at` and `href`,
+plus three deprecated fields (below). Compared with `EntityinterfaceInner`,
+these are **not** on it:
+
+| Dropped from the sitemap item | Where to read it instead |
+| --- | --- |
+| `entity_title` | `SearchApi.search()` or `EntitiesApi` |
+| `entity_teaser` | `SearchApi.search()` or `EntitiesApi` |
+| `entity_image` | `SearchApi.search()` or `EntitiesApi` |
+| `entity_time_start` | `SearchApi.search()` or `EntitiesApi` |
+| `entity_type_id` | `SearchApi.search()` or `EntitiesApi` |
+
+⚠️ **Fix this:** reading one of those off a sitemap entry no longer compiles.
+
+```ts
+const items = await new SitemapApi(config).sitemap({});
+
+items.map(i => i.entity_title);
+//            ~~~~~~~~~~~~~~
+// Property 'entity_title' does not exist on type 'SitemapinterfaceInner'.
+```
+
+A sitemap needs `<loc>` and `<lastmod>`, which is exactly what is left:
+
+```ts
+items.map(i => `<url><loc>${base}${i.href}</loc><lastmod>${
+  new Date(i.updated_at! * 1000).toISOString()
+}</lastmod></url>`);
+```
+
+If you were building a listing page — titles, teasers, images — off `/sitemap`,
+that data has to come from `/search` or `/entities/...` now.
+
+⚠️ **The compiler will not always catch this.** Every property on both models is
+optional, so `SitemapinterfaceInner` is still structurally assignable to
+`EntityinterfaceInner`. An explicit annotation therefore keeps compiling and the
+dropped fields silently read `undefined` at runtime:
+
+```ts
+// compiles in both versions — entity_title is undefined at runtime in v2.0
+const items: EntityinterfaceInner[] = await sitemapApi.sitemap({});
+items.map(i => i.entity_title);
+```
+
+Drop the annotation (or change it to `SitemapinterfaceInner[]`) so the type
+checker can point at the reads that need fixing.
+
+### `entity_type`, `entity_slug` and `routes` are deprecated
+
+They are still on the model, still populated, and still typed as before
+(`routes` is `{ [key: string]: any }`, same as v1.7). They are marked
+`@deprecated` because `href` is already the resolved URL for both mapped
+entities and container pages — the spec says they will be removed in a future
+version.
+
+- ✅ Nothing breaks now. Editors will strike them through; `tsc` does not error.
+- ⚠️ Migrate URL assembly to `href` before the next major spec bump. The
+  endpoint omits entries without a resolvable URL entirely, so `href` is
+  populated on every entry it does return — it stays optional in the type, like
+  every other generated property, but there is no longer a case where you have
+  to fall back to `routes.detail`.
+
+## `Entity.is_draft` and `Entity.draft_expires_at`
+
+Purely additive — both are optional, and nothing else about `Entity` changed.
+
+```ts
+is_draft?: boolean;
+draft_expires_at?: number | null;
+```
+
+A **draft link** is a shareable, expiring snapshot of an entity that is still
+offline in Flyo. It is requested through the same two endpoints as any other
+entity — `entityByUniqueid()` and `entityBySlug()` — with an opaque token in
+place of the unique id or the slug. `is_draft` is `false` on every regular
+response, `true` when the token resolved to a draft; `draft_expires_at` is the
+Unix timestamp at which the link stops working (`null` when `is_draft` is
+`false`). After it expires the same URL answers 404.
+
+```ts
+const { entity, is_draft, draft_expires_at } = await entitiesApi.entityBySlug({ slug });
+
+if (is_draft) {
+  renderBanner(`Draft preview — expires ${new Date(draft_expires_at! * 1000).toLocaleString()}`);
+}
+```
+
+Two things worth checking in an existing integration:
+
+- ⚠️ **A router that validates the slug against a pattern will reject draft
+  tokens.** The token does not look like a slug or a unique id, so let it
+  through if you want draft links to resolve.
+- ⚠️ **Do not pass `typeId` when resolving a draft token.** It is not a slug the
+  type filter applies to.
+
+Deserialization follows the usual rules: `is_draft: false` survives
+(`EntityFromJSON` only maps `null`/`undefined` to `undefined`), and an explicit
+`draft_expires_at: null` is preserved as `null` rather than dropped — use
+`draft_expires_at == null` if you mean "either". Both behaviours, and the new
+sitemap model, are covered in
+[`tests/deserialization.test.js`](tests/deserialization.test.js).
+
+## The search endpoint documents its matching rules
+
+`SearchApi.search()` is unchanged in signature, parameters and return type. Its
+JSDoc now spells out how the backend matches, which is worth knowing when tuning
+a search UI:
+
+- Every word of the query must appear in the title or the teaser, as a **partial
+  word**, in any order, whatever punctuation sits between them — `t shirt` finds
+  `T-Shirt`.
+- Diacritics match both ways, plain and transcribed: `Zurich` and `Zuerich` both
+  find `Zürich`, and vice versa.
+- If that yields nothing, words are matched again with **one typo** allowed per
+  word (wrong, missing, extra or swapped character) — `newsletetr` finds
+  `newsletter`. Typo tolerance needs a word of at least four characters; the
+  spelling variants above apply at any length.
+- `score` rewards a hit in the title over the same hit in the teaser, and the
+  whole query matching as one phrase over its words being scattered.
+
+The entity endpoint descriptions likewise gained the draft-link note. Both are
+comment-only changes.
+
+## Everything else
+
+No endpoint was added or removed, no method signature changed other than the two
+sitemap return types, and every other model is identical apart from the OpenAPI
+version string in its header comment.
+
+## For client library maintainers
+
+For `nitro-next`, `nitro-vue3`, and any project consuming this SDK directly:
+
+1. **Bump the dependency to `^2.0.0`,** then build. A `^1.x` range will not pick
+   2.0 up on its own, so the upgrade is always an explicit edit. Sitemap
+   generators that only read `href` and `updated_at` compile unchanged.
+2. **Audit every read of a `sitemap()` result** for the five dropped fields, and
+   remove any `EntityinterfaceInner` annotation on that result so the compiler
+   can find them for you.
+3. **Move URL assembly from `routes`/`entity_type`/`entity_slug` to `href`** in
+   sitemap code — it still works today, it will not survive the next major spec
+   bump.
+4. **Consider surfacing `is_draft`** with a visible banner, and let draft tokens
+   past any slug validation in your router — otherwise draft links 404 on the
+   integration side even though the API resolves them.
+
 # Upgrading from v1.6 to v1.7
 
 v1.7 regenerates the SDK against **OpenAPI document 2.30** (was 2.28.1). No
