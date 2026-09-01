@@ -1,0 +1,1 @@
+openapi-generator-cli author template -g typescript-fetch -o templates
