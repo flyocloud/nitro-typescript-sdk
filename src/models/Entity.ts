@@ -94,6 +94,12 @@ export interface Entity {
      * @memberof Entity
      */
     canonical?: string;
+    /**
+     * Whether this entity may be indexed by search engines. `false` when every page placing the entity's content pool is marked non-indexable and the pool is not an indexed pool: the entity is then absent from the sitemap and the search endpoint, and the consumer should render `<meta name="robots" content="noindex">` for the detail page. Not access control - the entity resolves by id and slug like any other. Always `false` for a draft link.
+     * @type {boolean}
+     * @memberof Entity
+     */
+    is_indexable?: boolean;
 }
 
 /**
@@ -122,6 +128,7 @@ export function EntityFromJSONTyped(json: any, ignoreDiscriminator: boolean): En
         'translation': json['translation'] == null ? undefined : ((json['translation'] as Array<any>).map(TranslationFromJSON)),
         'breadcrumb': json['breadcrumb'] == null ? undefined : ((json['breadcrumb'] as Array<any>).map(BreadcrumbFromJSON)),
         'canonical': json['canonical'] == null ? undefined : json['canonical'],
+        'is_indexable': json['is_indexable'] == null ? undefined : json['is_indexable'],
     };
 }
 
@@ -145,6 +152,7 @@ export function EntityToJSONTyped(value?: Entity | null, ignoreDiscriminator: bo
         'translation': value['translation'] == null ? undefined : ((value['translation'] as Array<any>).map(TranslationToJSON)),
         'breadcrumb': value['breadcrumb'] == null ? undefined : ((value['breadcrumb'] as Array<any>).map(BreadcrumbToJSON)),
         'canonical': value['canonical'],
+        'is_indexable': value['is_indexable'],
     };
 }
 

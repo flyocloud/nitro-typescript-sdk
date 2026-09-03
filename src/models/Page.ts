@@ -115,6 +115,12 @@ export interface Page {
      */
     is_visible?: number;
     /**
+     * Whether the page may be indexed by search engines. `0` means the page is deliberately kept out of the sitemap and the search endpoint, and the consumer should render `<meta name="robots" content="noindex">` (or an `X-Robots-Tag` header) for it. It is **not** access control: the page is delivered like any other and stays reachable by URL. Independent of `is_visible`, which only concerns the navigation.
+     * @type {number}
+     * @memberof Page
+     */
+    is_indexable?: number;
+    /**
      * 
      * @type {Meta}
      * @memberof Page
@@ -197,6 +203,7 @@ export function PageFromJSONTyped(json: any, ignoreDiscriminator: boolean): Page
         'created_at': json['created_at'] == null ? undefined : json['created_at'],
         'updated_at': json['updated_at'] == null ? undefined : json['updated_at'],
         'is_visible': json['is_visible'] == null ? undefined : json['is_visible'],
+        'is_indexable': json['is_indexable'] == null ? undefined : json['is_indexable'],
         'meta_json': json['meta_json'] == null ? undefined : MetaFromJSON(json['meta_json']),
         'properties': json['properties'] == null ? undefined : (mapValues(json['properties'], PagePropertyValueFromJSON)),
         'uid': json['uid'] == null ? undefined : json['uid'],
@@ -230,6 +237,7 @@ export function PageToJSONTyped(value?: Page | null, ignoreDiscriminator: boolea
         'created_at': value['created_at'],
         'updated_at': value['updated_at'],
         'is_visible': value['is_visible'],
+        'is_indexable': value['is_indexable'],
         'meta_json': MetaToJSON(value['meta_json']),
         'properties': value['properties'] == null ? undefined : (mapValues(value['properties'], PagePropertyValueToJSON)),
         'uid': value['uid'],
